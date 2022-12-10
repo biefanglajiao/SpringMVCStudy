@@ -18,6 +18,22 @@
 
     </servlet>
 
+<!--    过滤器解决中文乱码-->
+<!--    对于get请求中文参数出现乱码，可以在使用参数之前重新编码，如String username = new String(user.getUsername().getBytes(“ISO8859-1”),“UTF-8”);-->
+<!--    filter-name名称随便-->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class> org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param><param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+<!--        任意路径都翻译-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 <!--  2.  虚拟路径-->
     <servlet-mapping>
         <servlet-name>Demoservlet</servlet-name>

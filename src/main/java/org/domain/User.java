@@ -4,12 +4,22 @@ public class User {
     //json格式返回的参数实例
     private  String name;
     private  int id;
+    private  String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
+                ", password='" + password + '\'' +
                 '}';
     }
 
