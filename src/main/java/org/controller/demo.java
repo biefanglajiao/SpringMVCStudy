@@ -1,6 +1,8 @@
 package org.controller;
 
+import org.domain.ComplexUser;
 import org.domain.User;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.*;
 
 
 @Controller
@@ -114,5 +117,89 @@ public class demo {
         return modelAndView;
     }
 
+/****
+ * 自定义类型转换器
+ */
+
+    //日期转换器  在方法中使用
+    @RequestMapping("date")
+    public ModelAndView getdate(@DateTimeFormat(pattern = "yyyy-MM-dd")Date birthday){
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.addObject("msg",birthday);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+
+
+    /***
+     * 复杂数据绑定
+     *
+     */
+    @RequestMapping("comparr")
+    public  ModelAndView dataArr(String[] ids){
+        ModelAndView modelAndView=new ModelAndView();
+        String ste="要删除的数据id为：";
+        for (String id:ids) {
+ste+=id+";";
+        }
+        modelAndView.addObject("msg",ste);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+    @RequestMapping("complist")
+    public  ModelAndView dataArr(@RequestParam List<String> ids){
+        ModelAndView modelAndView=new ModelAndView();
+        String ste="要删除的数据id为：";
+        for (String id:ids) {
+            ste+=id+";";
+        }
+        modelAndView.addObject("msg",ste);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+    //复杂pojo对象
+    @RequestMapping("comppojo")
+    public  ModelAndView datapojo(ComplexUser complexUser){
+        ModelAndView modelAndView=new ModelAndView();
+        String ste="用户："+complexUser.getInfo()+"编号："+complexUser.getId()+"的账户信息是："+complexUser.getUser();
+        modelAndView.addObject("msg",ste);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+    @RequestMapping("comppojolist" )
+    public  ModelAndView datapojos(ComplexUser complexUser){
+        ModelAndView modelAndView=new ModelAndView();
+        String ste="用户："+complexUser.getInfo()+"编号："+complexUser.getId()+"的账户信息是："+complexUser.getUser();
+/***
+ * 加入list pojo对象
+ */
+      List<User> userList =complexUser.getUserList();
+        for (User user : userList) {
+            ste+=complexUser.getUser();
+        }
+
+        modelAndView.addObject("msg",ste);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+
+    //使用map来管理pojo
+    @RequestMapping("comppojomap" )
+    public ModelAndView daramap(ComplexUser complexUser){
+        ModelAndView modelAndView=new ModelAndView();
+        String ste="用户："+complexUser.getInfo()+"编号："+complexUser.getId()+"的账户信息是：";
+        HashMap<String, User> usermap = complexUser.getUsermap();
+        Set<String> keys = usermap.keySet();//获得所有key
+        for (String key : keys) {
+            User user = usermap.get(key);
+            ste+="name: "+user.getName();
+            ste+="birthday: "+user.getBirthday();
+            ste+="password: "+user.getPassword();
+            ste+="id: "+user.getId();
+        }
+        modelAndView.addObject("msg",ste);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
 }
 

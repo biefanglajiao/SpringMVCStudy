@@ -22,7 +22,7 @@
 <!--    //非注解controller-->
     <bean id="/new" class="org.非注解controller.demo"></bean>
 
-<!--    显示并快捷配置处理器映射器和处理器适配器    json返回格式配置   选择的时候注意不要选择错包-->
+<!--    显示并快捷配置处理器映射器和处理器适配器    注解支持  json返回格式配置   选择的时候注意不要选择错包-->
     <mvc:annotation-driven></mvc:annotation-driven>
 
 </beans>

@@ -1,10 +1,26 @@
 package org.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 public class User {
     //json格式返回的参数实例
     private  String name;
     private  int id;
     private  String password;
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    //在pojo类中使用
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
 
     public String getPassword() {
         return password;
@@ -20,6 +36,7 @@ public class User {
                 "name='" + name + '\'' +
                 ", id=" + id +
                 ", password='" + password + '\'' +
+                ", birthday=" + birthday +
                 '}';
     }
 
